@@ -85,6 +85,7 @@
             return array;
         }
 
+        // Wow, black keys are hard so just slice them out (for now).
         let note_order = shuffleArray(notes.slice(0, 7));
         let note_working_set = {}
         function has_more_notes() {
