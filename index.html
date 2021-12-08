@@ -69,7 +69,7 @@
         let first_draw = false;
         const notes = [
             "C", "D", "E", "F", "G", "A", "B",
-            "C#/Bb", "D#/Eb", "F#/Gb", "G#/Ab", "A#/Bb"
+            "C#/Db", "D#/Eb", "F#/Gb", "G#/Ab", "A#/Bb"
         ];
         const input_response = document.getElementById("response");
         const right_answer = document.getElementById("right_answer");
@@ -107,7 +107,7 @@
                 "G": [258, 200],
                 "A": [315, 200],
                 "B": [372, 200],
-                "C#/Bb": [58, 100],
+                "C#/Db": [58, 100],
                 "D#/Eb": [115, 100],
                 "F#/Gb": [229, 100],
                 "G#/Ab": [286, 100],
@@ -116,6 +116,9 @@
             //const {x,y} = data[note_str];
             const [x, y] = data[note_str];
             draw_circle(x, y);
+        }
+        function reveal_answer() {
+            right_answer.innerText = curr_random_note;
         }
         let curr_random_note = null;
         function random_next() {
@@ -126,19 +129,29 @@
             console.log(note);
             drawNote(note);
         }
-        setTimeout(random_next, 0);
+        setTimeout(random_next, 500);
         document.getElementById("next").onclick = random_next;
         document.getElementById("submit").onclick = () => {
             const value = input_response.value;
             if (value != curr_random_note) {
-                right_answer.innerText = curr_random_note;
+                reveal_answer();
             } else {
                 random_next();
             }
         };
         document.getElementById("reveal").onclick = () => {
-            right_answer.innerText = curr_random_note;
+            reveal_answer();
         };
+
+        input_response.onkeydown = (event) => {
+        if (event.key === 'Enter') {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("submit").click();
+            return;
+        }
+    }
     </script>
 </body>
 
