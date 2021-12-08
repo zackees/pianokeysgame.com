@@ -94,13 +94,6 @@
         while (has_more_notes()) {
             note_working_set[note_order.pop()] = 0;
         }
-
-
-        function update_note_score(note, true_if_right) {
-            note_scores[note] += true_if_right ? 1 : -1;
-        }
-        //const note_scores = notes.map(value => ({value: 0}));
-        //console.log(note_scores);
         const input_response = document.getElementById("response");
         const right_answer = document.getElementById("right_answer");
         function random_int(min, max) {
@@ -145,7 +138,8 @@
             draw_circle(x, y);
         }
         function reveal_answer() {
-            right_answer.innerText = curr_random_note;
+            const num_wrong = -(note_working_set[curr_random_note]-1);
+            right_answer.innerText = `${curr_random_note} needs ${num_wrong} right answers left.`;
         }
         let curr_random_note = null;
         function random_next() {
