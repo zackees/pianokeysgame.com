@@ -85,7 +85,7 @@
             return array;
         }
 
-        let note_order = shuffleArray(notes);
+        let note_order = shuffleArray(notes.slice(0, 7));
         let note_working_set = {}
         function has_more_notes() {
             return Object.keys(note_working_set).length < 4 && note_order.length > 0;
