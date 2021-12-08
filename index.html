@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html xml:lang="en" lang="en">
+
+<head>
+    <!-- Primary Meta Tags -->
+    <meta charset="utf-8" />
+    <title>Piano Keys Game</title>
+    <meta name="title" content="Pickup line game">
+    <meta name="description" content="A game where you do pickup lines">
+</head>
+
+<style>
+    * {
+        font-family: Helvetica, sans-serif;
+    }
+
+    input[type="button"] {
+        font-size: 24px;
+    }
+
+    input[type=text] {
+        width: 400px;
+        font-size: 18pt;
+        margin-bottom: 5px;
+    }
+
+    #div_container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #div_main {
+        width: min(100%, 500px);
+    }
+
+    #div_stimulus {
+        min-height: 4em;
+    }
+</style>
+
+<body>
+    <div id="div_container">
+        <div id="div_main">
+            <canvas id="my_canvas" width="400px">
+            </canvas>
+            <br>
+			<input type="text" name="response" id="response" name="response" width="400px"></input>
+            <br>
+            <input type="button" id="submit" value="Submit"></input>
+            <input type="button" id="next" value="Next"></input>
+            <input type="button" id="reveal" value="Reveal"></input>
+            <p id="right_answer" style="color: Red;"></p>
+        </div>
+    </div>
+
+    <script>
+        const img_url = "piano_keys.png";
+        const img_ratio = 0.6270833333333333;
+        const canvas_width = 400;
+        const canvas = document.getElementById("my_canvas");
+        canvas.width = canvas_width;
+        const context = canvas.getContext("2d");
+        context.globalCompositeOperation = "source-over";
+        canvas.height = canvas.width * img_ratio;
+        const img = new Image();
+        img.src = img_url;
+        let first_draw = false;
+        const notes = [
+            "C", "D", "E", "F", "G", "A", "B",
+            "C#/Bb", "D#/Eb", "F#/Gb", "G#/Ab", "A#/Bb"
+        ];
+        const input_response = document.getElementById("response");
+        const right_answer = document.getElementById("right_answer");
+        function random_int(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function draw_piano() {
+            first_draw = true;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+        }
+        // Init.
+        window.onload = () => { if (!first_draw) { draw_piano(); } };
+
+        function drawNote(note_str) {
+            right_answer.innerText = "";
+            function draw_circle(x, y) {
+                let radius = 10;
+                context.beginPath();
+                context.fillStyle = '#ff0000';
+                context.strokeStyle = '#ff0000';
+                context.lineWidth = 2;
+                context.arc(x, y, radius, 0, 2 * Math.PI, false);
+                context.fill();
+                context.stroke();
+            }
+            draw_piano();
+            // Assumes 400px width for piano canvas.
+            const data = {
+                "C": [30, 200],
+                "D": [87, 200],
+                "E": [144, 200],
+                "F": [201, 200],
+                "G": [258, 200],
+                "A": [315, 200],
+                "B": [372, 200],
+                "C#/Bb": [58, 100],
+                "D#/Eb": [115, 100],
+                "F#/Gb": [229, 100],
+                "G#/Ab": [286, 100],
+                "A#/Bb": [343, 100]
+            }
+            //const {x,y} = data[note_str];
+            const [x, y] = data[note_str];
+            draw_circle(x, y);
+        }
+        let curr_random_note = null;
+        function random_next() {
+            response.value = "";
+            const i = random_int(0, notes.length);
+            const note = notes[i];
+            curr_random_note = note;
+            console.log(note);
+            drawNote(note);
+        }
+        setTimeout(random_next, 0);
+        document.getElementById("next").onclick = random_next;
+        document.getElementById("submit").onclick = () => {
+            const value = input_response.value;
+            if (value != curr_random_note) {
+                right_answer.innerText = curr_random_note;
+            } else {
+                random_next();
+            }
+        };
+        document.getElementById("reveal").onclick = () => {
+            right_answer.innerText = curr_random_note;
+        };
+    </script>
+</body>
+
+</html>
