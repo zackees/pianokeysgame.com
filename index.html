@@ -172,6 +172,7 @@
         document.getElementById("next").onclick = random_next;
         document.getElementById("submit").onclick = () => {
             const value = input_response.value;
+            input_response.value = "";
             if (value != curr_random_note) {
                 // Two, because the next answer will be right.
                 note_working_set[curr_random_note] -= 2;
