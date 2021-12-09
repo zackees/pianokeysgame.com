@@ -175,7 +175,6 @@
                 }
             }
             curr_random_note = note;
-            console.log(note);
             drawNote(note);
             return true;  // More in the set.
         }
@@ -204,7 +203,6 @@
         window.onload = random_next;
         notes.forEach((note) => {
             const el = document.getElementById(note);
-            console.log(el);
             el.onclick = () => {
                 submit(note);
             }
