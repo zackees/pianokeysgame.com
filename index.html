@@ -43,11 +43,11 @@
 
 <body>
     <div id="div_container">
-        <div id="div_main">
+        <div id="div_main" width="500px">
             <H1>Piano Keys Game</H1>
             <p>Look at the red dot, and then select the key that it belongs to.</p>
             <p>If you don't know which key it is then guess.</p>
-            <canvas id="my_canvas" width="400px">
+            <canvas id="my_canvas" width="500px">
             </canvas>
             <br>
             <h3>White Keys</h3>
@@ -72,9 +72,7 @@
     <script>
         const img_url = "piano_keys.png";
         const img_ratio = 0.6270833333333333;
-        const canvas_width = 400;
         const canvas = document.getElementById("my_canvas");
-        canvas.width = canvas_width;
         const context = canvas.getContext("2d");
         context.globalCompositeOperation = "source-over";
         canvas.height = canvas.width * img_ratio;
@@ -120,8 +118,7 @@
 
         function drawNote(note_str) {
             right_answer.innerText = "";
-            function draw_circle(x, y) {
-                let radius = 10;
+            function draw_circle(x, y, radius) {
                 context.beginPath();
                 context.fillStyle = '#ff0000';
                 context.strokeStyle = '#ff0000';
@@ -147,7 +144,10 @@
                 "A#/Bb": [0.8575, 0.4]
             }
             const [x, y] = data[note_str];
-            draw_circle(x * canvas.width, y * canvas.height);
+            const radius = 10 / 400;
+            draw_circle(x * canvas.width,
+                        y * canvas.height,
+                        radius * canvas.width);
         }
         function reveal_answer() {
             const num_wrong = -(note_working_set[curr_random_note]-1);
