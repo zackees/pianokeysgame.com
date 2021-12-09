@@ -7,7 +7,7 @@
     <title>Piano Keys Game</title>
     <meta name="title" content="Piano game">
     <meta name="description" content="A free game where learn how to identify piano keys">
-    <link rel="shortcut icon" href="favicon.ico" /> 
+    <link rel="shortcut icon" href="favicon.ico" />
 </head>
 
 <style>
@@ -39,6 +39,11 @@
     #div_stimulus {
         min-height: 4em;
     }
+
+    .wide {
+        padding: 15px;
+        margin: 5px;
+    }
 </style>
 
 <body>
@@ -50,21 +55,25 @@
             <canvas id="my_canvas" width="500px">
             </canvas>
             <br>
-            <h3>White Keys</h3>
-            <input type="button" id="A" value="A"></input>
-            <input type="button" id="B" value="B"></input>
-            <input type="button" id="C" value="C"></input>
-            <input type="button" id="D" value="D"></input>
-            <input type="button" id="E" value="E"></input>
-            <input type="button" id="F" value="F"></input>
-            <input type="button" id="G" value="G"></input>
-            <h3>Black Keys</h3>
+            <div id="div_white_keys">
+                <h3>White Keys</h3>
+                <input type="button" id="A" value="A" class="wide"></input>
+                <input type="button" id="B" value="B" class="wide"></input>
+                <input type="button" id="C" value="C" class="wide"></input>
+                <input type="button" id="D" value="D" class="wide"></input>
+                <input type="button" id="E" value="E" class="wide"></input>
+                <input type="button" id="F" value="F" class="wide"></input>
+                <input type="button" id="G" value="G" class="wide"></input>
+            </div>
 
-            <input type="button" id="A#/Bb" value="A#/Bb"></input>
-            <input type="button" id="C#/Db" value="C#/Db"></input>
-            <input type="button" id="D#/Eb" value="D#/Eb"></input>
-            <input type="button" id="F#/Gb" value="F#/Gb"></input>
-            <input type="button" id="G#/Ab" value="G#/Ab"></input>
+            <div id="div_black_keys" style="display: none;">
+                <h3>Black Keys</h3>
+                <input type="button" id="A#/Bb" value="A#/Bb"></input>
+                <input type="button" id="C#/Db" value="C#/Db"></input>
+                <input type="button" id="D#/Eb" value="D#/Eb"></input>
+                <input type="button" id="F#/Gb" value="F#/Gb"></input>
+                <input type="button" id="G#/Ab" value="G#/Ab"></input>
+            </div>
             <p id="right_answer" style="color: Red;"></p>
         </div>
     </div>
@@ -130,27 +139,27 @@
             draw_piano();
             // Coordinates are relative to the png of the piano.
             const data = {
-                "C": [0.075,  0.8],
+                "C": [0.075, 0.8],
                 "D": [0.2175, 0.8],
-                "E": [0.36,   0.8],
+                "E": [0.36, 0.8],
                 "F": [0.5025, 0.8],
-                "G": [0.645,  0.8],
+                "G": [0.645, 0.8],
                 "A": [0.7875, 0.8],
-                "B": [0.93,   0.8],
-                "C#/Db": [0.145,  0.4],
+                "B": [0.93, 0.8],
+                "C#/Db": [0.145, 0.4],
                 "D#/Eb": [0.2875, 0.4],
                 "F#/Gb": [0.5725, 0.4],
-                "G#/Ab": [0.715,  0.4],
+                "G#/Ab": [0.715, 0.4],
                 "A#/Bb": [0.8575, 0.4]
             }
             const [x, y] = data[note_str];
             const radius = 10 / 400;
             draw_circle(x * canvas.width,
-                        y * canvas.height,
-                        radius * canvas.width);
+                y * canvas.height,
+                radius * canvas.width);
         }
         function reveal_answer() {
-            const num_wrong = -(note_working_set[curr_random_note]-1);
+            const num_wrong = -(note_working_set[curr_random_note] - 1);
             right_answer.innerText = `"${curr_random_note}" needs ${num_wrong} right answers left.`;
         }
         let curr_random_note = null;
@@ -183,7 +192,7 @@
                 if (note_working_set[curr_random_note] > 0) {
                     delete note_working_set[curr_random_note];
                     if (has_more_notes()) {
-                       note_working_set[note_order.pop()] = 0;
+                        note_working_set[note_order.pop()] = 0;
                     }
                 }
                 if (!random_next()) {
