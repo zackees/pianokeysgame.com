@@ -96,6 +96,7 @@
             note_working_set[note_order.pop()] = 0;
         }
         const input_response = document.getElementById("response");
+        input_response.focus();
         const right_answer = document.getElementById("right_answer");
         function random_int(min, max) {
             return Math.floor(Math.random() * (max - min)) + min;
