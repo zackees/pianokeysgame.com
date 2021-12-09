@@ -66,6 +66,9 @@
                 <input type="button" id="G" value="G" class="wide"></input>
             </div>
 
+            <!--
+                Work pin progress.
+                input id="chk_include_black_keys" type="checkbox">Include Black Keys</input-->
             <div id="div_black_keys" style="display: none;">
                 <h3>Black Keys</h3>
                 <input type="button" id="A#/Bb" value="A#/Bb"></input>
@@ -75,6 +78,7 @@
                 <input type="button" id="G#/Ab" value="G#/Ab"></input>
             </div>
             <p id="right_answer" style="color: Red;"></p>
+            <p id="correct" style="color: Green;"></p>
         </div>
     </div>
 
@@ -186,8 +190,10 @@
             if (value != curr_random_note) {
                 // Two, because the next answer will be right.
                 note_working_set[curr_random_note] -= 2;
+                document.getElementById("correct").innerText = "";
                 reveal_answer();
             } else {
+                document.getElementById("correct").innerText = "Correct!";
                 note_working_set[curr_random_note] += 1;
                 if (note_working_set[curr_random_note] > 0) {
                     delete note_working_set[curr_random_note];
