@@ -131,29 +131,23 @@
                 context.stroke();
             }
             draw_piano();
-            // Assumes 400px width for piano canvas.
+            // Coordinates are relative to the png of the piano.
             const data = {
-                "C": [30, 200],
-                "D": [87, 200],
-                "E": [144, 200],
-                "F": [201, 200],
-                "G": [258, 200],
-                "A": [315, 200],
-                "B": [372, 200],
-                "C#/Db": [58, 100],
-                "D#/Eb": [115, 100],
-                "F#/Gb": [229, 100],
-                "G#/Ab": [286, 100],
-                "A#/Bb": [343, 100]
+                "C": [0.075,  0.8],
+                "D": [0.2175, 0.8],
+                "E": [0.36,   0.8],
+                "F": [0.5025, 0.8],
+                "G": [0.645,  0.8],
+                "A": [0.7875, 0.8],
+                "B": [0.93,   0.8],
+                "C#/Db": [0.145,  0.4],
+                "D#/Eb": [0.2875, 0.4],
+                "F#/Gb": [0.5725, 0.4],
+                "G#/Ab": [0.715,  0.4],
+                "A#/Bb": [0.8575, 0.4]
             }
-            // print out relative values.
-            //for (let key in data) {
-            //    let val = data[key];
-            //    console.log(key, val[0] / 400);
-            //}
-            //const {x,y} = data[note_str];
             const [x, y] = data[note_str];
-            draw_circle(x, y);
+            draw_circle(x * canvas.width, y * canvas.height);
         }
         function reveal_answer() {
             const num_wrong = -(note_working_set[curr_random_note]-1);
