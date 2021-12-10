@@ -193,13 +193,17 @@
                 document.getElementById("correct").innerText = "";
                 reveal_answer();
             } else {
-                document.getElementById("correct").innerText = "Correct!";
                 note_working_set[curr_random_note] += 1;
+
                 if (note_working_set[curr_random_note] > 0) {
                     delete note_working_set[curr_random_note];
                     if (has_more_notes()) {
                         note_working_set[note_order.pop()] = 0;
                     }
+                    document.getElementById("correct").innerText = `Correct! All done with ${value}.`;
+                } else {
+                    const num_left = note_working_set[curr_random_note]
+                    document.getElementById("correct").innerText = `Correct! There are ${-num_left} more until ${value} is done.`;
                 }
                 if (!random_next()) {
                     alert("Finished.");
