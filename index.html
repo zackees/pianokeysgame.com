@@ -164,7 +164,7 @@
         }
         function reveal_answer() {
             const num_wrong = -(note_working_set[curr_random_note] - 1);
-            right_answer.innerText = `"${curr_random_note}" needs ${num_wrong} right answers left.`;
+            right_answer.innerText = `Wrong, it was "${curr_random_note}", which needs ${num_wrong} right answers before it's finished.`;
         }
         let curr_random_note = null;
         function random_next() {
@@ -200,10 +200,10 @@
                     if (has_more_notes()) {
                         note_working_set[note_order.pop()] = 0;
                     }
-                    document.getElementById("correct").innerText = `Correct! All done with ${value}.`;
+                    document.getElementById("correct").innerText = `"${value}" is correct! Finished with that letter.`;
                 } else {
                     const num_left = note_working_set[curr_random_note]
-                    document.getElementById("correct").innerText = `Correct! There are ${-num_left} more until ${value} is done.`;
+                    document.getElementById("correct").innerText = `"${value}" is correct! There are ${-num_left} more until "${value}" is finished.`;
                 }
                 if (!random_next()) {
                     alert("Finished.");
