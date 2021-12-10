@@ -34,12 +34,12 @@ function random_int(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function draw_piano() {
+function draw_piano(context) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
 }
 
-function drawNote(note_str) {
+function drawNote(context, note_str) {
     right_answer.innerText = "";
     function draw_circle(x, y, radius) {
         context.beginPath();
@@ -50,7 +50,6 @@ function drawNote(note_str) {
         context.fill();
         context.stroke();
     }
-    draw_piano();
     // Coordinates are relative to the png of the piano.
     const data = {
         "C": [0.075, 0.8],
@@ -68,7 +67,8 @@ function drawNote(note_str) {
     }
     const [x, y] = data[note_str];
     const radius = 10 / 400;
-    draw_circle(x * canvas.width,
+    draw_circle(
+        x * canvas.width,
         y * canvas.height,
         radius * canvas.width);
 }
@@ -92,7 +92,8 @@ function random_next() {
         }
     }
     curr_random_note = note;
-    drawNote(note);
+    draw_piano(context);
+    drawNote(context, note);
     return true;  // More in the set.
 }
 
