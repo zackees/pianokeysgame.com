@@ -35,11 +35,13 @@ function random_int(min, max) {
 }
 
 function draw_piano(context) {
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+    const width = context.canvas.clientWidth;
+    const height = context.canvas.clientHeight;
+    context.clearRect(0, 0, width, height);
+    context.drawImage(img, 0, 0, img.width, img.height, 0, 0, width, height);
 }
 
-function drawNote(context, note_str) {
+function draw_note(context, note_str) {
     right_answer.innerText = "";
     function draw_circle(x, y, radius) {
         context.beginPath();
@@ -68,9 +70,9 @@ function drawNote(context, note_str) {
     const [x, y] = data[note_str];
     const radius = 10 / 400;
     draw_circle(
-        x * canvas.width,
-        y * canvas.height,
-        radius * canvas.width);
+        x * context.canvas.clientWidth,
+        y * context.canvas.clientHeight,
+        radius * context.canvas.clientWidth);
 }
 function reveal_answer() {
     const num_wrong = -(note_working_set[curr_random_note] - 1);
@@ -93,7 +95,7 @@ function random_next() {
     }
     curr_random_note = note;
     draw_piano(context);
-    drawNote(context, note);
+    draw_note(context, note);
     return true;  // More in the set.
 }
 
