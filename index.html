@@ -203,7 +203,7 @@
                     document.getElementById("correct").innerText = `"${value}" is correct! Finished with that letter.`;
                 } else {
                     const num_left = note_working_set[curr_random_note]
-                    document.getElementById("correct").innerText = `"${value}" is correct! There are ${-num_left} more until "${value}" is finished.`;
+                    document.getElementById("correct").innerText = `"${value}" is correct! There are ${-num_left + 1} more until "${value}" is finished.`;
                 }
                 if (!random_next()) {
                     alert("Finished.");
