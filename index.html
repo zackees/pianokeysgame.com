@@ -202,7 +202,7 @@
                     if (has_more_notes()) {
                         note_working_set[note_order.pop()] = 0;
                     }
-                    document.getElementById("correct").innerText = `"${value}" is correct! Finished with that letter.`;
+                    document.getElementById("correct").innerText = `"${value}" is correct!`;
                 } else {
                     const num_left = note_working_set[curr_random_note]
                     document.getElementById("correct").innerText = `"${value}" is correct! There are ${-num_left + 1} more until "${value}" is finished.`;
