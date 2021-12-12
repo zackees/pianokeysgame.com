@@ -33,4 +33,25 @@
     </div>
 </body>
 
+<script>
+    const notes_snds = {
+        "A": new Audio("snd/a5.mp3"),
+        "B": new Audio("snd/b5.mp3"),
+        "C": new Audio("snd/c5.mp3"),
+        "D": new Audio("snd/d5.mp3"),
+        "E": new Audio("snd/e5.mp3"),
+        "F": new Audio("snd/f5.mp3"),
+        "G": new Audio("snd/g5.mp3"),
+    };
+    document.onkeydown = (evt) => {
+    const key = evt.key.toUpperCase();
+    const snd = notes_snds[key];
+    if (snd) {
+        snd.play();
+    }
+};
+
+
+</script>
+
 </html>
