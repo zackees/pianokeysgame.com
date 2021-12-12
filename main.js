@@ -1,4 +1,7 @@
 
+const img_url = "piano_keys.png";
+const img_ratio = 0.6270833333333333;
+
 function canvas() {
     return document.getElementById("my_canvas");
 }
@@ -7,9 +10,19 @@ function context() {
     return canvas().getContext("2d");
 }
 
-const img_url = "piano_keys.png";
-const img_ratio = 0.6270833333333333;
-canvas().height = canvas().width * img_ratio;
+function set_canvas_size(width, height_opt) {
+    const c = canvas();
+    c.width = width;
+    c.height = height_opt === undefined ? c.width * img_ratio : height_opt;
+}
+
+
+function css_get_global_var(key) {
+    const styles = getComputedStyle(document.documentElement);
+    const out = styles.getPropertyValue(key);
+    return out;
+}
+
 const img = new Image();
 img.src = img_url;
 const notes = [
@@ -17,24 +30,7 @@ const notes = [
     "C#/Db", "D#/Eb", "F#/Gb", "G#/Ab", "A#/Bb"
 ];
 
-const notes_snds = {
-    "A": new Audio("snd/a5.mp3"),
-    "B": new Audio("snd/b5.mp3"),
-    "C": new Audio("snd/c5.mp3"),
-    "D": new Audio("snd/d5.mp3"),
-    "E": new Audio("snd/e5.mp3"),
-    "F": new Audio("snd/f5.mp3"),
-    "G": new Audio("snd/g5.mp3"),
-};
 
-function play_note(note) {
-    const snd = notes_snds[note];
-    if (snd) {
-        snd.play();
-        return true;
-    }
-    return false;
-}
 
 // Wow, black keys are hard so just slice them out (for now).
 let note_order = shuffleArray(notes.slice(0, 7));
@@ -104,8 +100,7 @@ function submit(value) {
     }
 }
 
-// Init.
-window.onload = random_next;
+
 notes.forEach((note) => {
     const el = document.getElementById(note);
     el.onclick = () => {

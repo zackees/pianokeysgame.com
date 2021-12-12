@@ -37,6 +37,11 @@
         font-family: Helvetica, sans-serif;
     }
 
+
+    :root {
+		--canvas-width: 500;
+	}
+
     input[type="button"] {
         font-size: 24px;
     }
@@ -55,7 +60,7 @@
     }
 
     #div_main {
-        width: min(100%, 500px);
+        width: min(100%, var(--canvas-width)px);
     }
 
     #div_stimulus {
@@ -108,6 +113,12 @@
 
     <script src="common.js"></script>
     <script src="main.js"></script>
+    <script>
+        const w = css_get_global_var("--canvas-width");
+        set_canvas_size(w);
+        // Init.
+        window.onload = random_next;
+    </script>
 </body>
 
 </html>
