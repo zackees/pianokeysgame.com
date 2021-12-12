@@ -1,9 +1,15 @@
+
+function canvas() {
+    return document.getElementById("my_canvas");
+}
+
+function context() {
+    return canvas().getContext("2d");
+}
+
 const img_url = "piano_keys.png";
 const img_ratio = 0.6270833333333333;
-const canvas = document.getElementById("my_canvas");
-const context = canvas.getContext("2d");
-context.globalCompositeOperation = "source-over";
-canvas.height = canvas.width * img_ratio;
+canvas().height = canvas().width * img_ratio;
 const img = new Image();
 img.src = img_url;
 const notes = [
@@ -65,8 +71,9 @@ function random_next() {
     }
     curr_random_note = note;
     right_answer.innerText = "";
-    draw_piano(context);
-    draw_note(context, note);
+    const ctx = context();
+    draw_piano(ctx);
+    draw_note(ctx, note);
     return true;  // More in the set.
 }
 
