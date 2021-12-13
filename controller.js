@@ -14,7 +14,11 @@ class Controller {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    constructor(notes, max_active_test_sets, on_success_cb, on_miss_cb, on_game_complete) {
+    constructor(notes,
+                max_active_test_sets,
+                on_success_cb,
+                on_miss_cb,
+                on_game_complete) {
         this.original_notes = notes.slice(0, notes.length);
         this.max_active_test_sets = max_active_test_sets;
         this.notes = null;
@@ -24,7 +28,12 @@ class Controller {
         this.on_success_cb = on_success_cb;
         this.on_miss_cb = on_miss_cb;
         this.on_game_complete = on_game_complete;
+        this.on_new_gamestate = null;
         this.init();
+    }
+
+    set_new_gamestate_callback(cb) {
+        this.on_new_gamestate = cb;
     }
 
     init() {
@@ -72,6 +81,9 @@ class Controller {
         }
         this.curr_random_note = note;
         console.log("curr_random_note", this.curr_random_note);
+        if (this.on_new_gamestate) {
+            this.on_new_gamestate(this.curr_random_note);
+        }
         //right_answer.innerText = "";
         //const ctx = context();
         return true;  // More in the set.

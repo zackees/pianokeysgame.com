@@ -74,7 +74,6 @@
             const on_success_callback = (note, msg) => {
                 document.getElementById("correct").innerText = msg;
                 document.getElementById("wrong_answer").innerText = "";
-                play_note(note);
             };
 
             const on_miss_callback = (msg) => {
@@ -95,6 +94,9 @@
                 on_success_callback,
                 on_miss_callback,
                 on_game_complete_callback);
+            controller.set_new_gamestate_callback((note)=>{
+                play_note(note);
+            })
 
             // Attach buttons actions.
             notes.forEach((note) => {
@@ -110,12 +112,11 @@
                     controller.submit(found_key);
                 }
             };
-            controller.random_next();
+            //controller.random_next();
             document.getElementById("btn_play_tone").onclick = () => {
                 controller.play_current_note();
             };
         }
-
     </script>
 </body>
 
