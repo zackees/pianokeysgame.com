@@ -29,46 +29,32 @@
 
     <!-- Other -->
     <link rel="image_src" href="https://www.pianokeysgame.com/preview.png">
-
 </head>
 
+<style>
+    * {
+        font-family: Helvetica, sans-serif;
+    }
+</style>
+
+
 <body>
-    <input type="button" value="prev" id="btn_prev"></input>
-    <input type="button" value="next" id="btn_next"></input>
+    <center>
+        <H1>Piano Keys Game!</H1>
+        <input type="button" value="Keys Game" id="btn_game_keys"></input>
+        <input type="button" value="Sound Game" id="btn_game_snd"></input>
+    </center>
     <div id="main"></div>
     <script>
-        let curr_game_idx = 0;
-        const game_urls = [
-            'game1.html',
-            'game2.html'
-        ];
-
-        function set_game(idx) {
-            idx = Number.parseInt(idx);
-            const url = game_urls[idx];
+        function set_game(url) {
             const div_main = document.getElementById("main");
             const h = window.screen.availHeight;
             div_main.innerHTML = `<iframe style="border: 0" src="${url}" width="100%", height="${h}"></iframe>`;
         }
 
-        function next_game() {
-            const game_idx = Number.parseInt(curr_game_idx) % game_urls.length;
-            curr_game_idx = game_idx+1;
-            set_game(game_idx);
-        }
-
-        function prev_game() {
-            let game_idx = Number.parseInt(curr_game_idx) % game_urls.length;
-            if (game_idx < 0) {
-                game_idx = -game_idx;
-            }
-            curr_game_idx = game_idx-1;
-            set_game(game_idx);
-        }
-
-        document.getElementById("btn_next").onclick = next_game;
-        document.getElementById("btn_prev").onclick = prev_game;
-        window.onload = next_game;
+        document.getElementById("btn_game_keys").onclick = () => { set_game("game1.html"); };
+        document.getElementById("btn_game_snd").onclick = () => { set_game("game2.html"); };
+        window.onload = () => {set_game("game1.html");};
     </script>
 
 </body>

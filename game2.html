@@ -42,7 +42,6 @@
 <body>
     <div id="div_container">
         <div id="div_main">
-            <H1>Piano Keys Game!</H1>
             <h2>Sound Game</h2>
             <p>Listen to the tone then select the key.</p>
             <input type="button" value="play tone" id="btn_play_tone"></input>
@@ -90,7 +89,7 @@
 
             let controller = new Controller(
                 notes,
-                3,
+                2,  // Maximum two items in the test set.
                 play_note,
                 on_success_callback,
                 on_miss_callback,
