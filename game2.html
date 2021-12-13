@@ -80,22 +80,25 @@
             return out;
         }
         class Controller {
-
-            has_more_notes() {
-                const n = Object.keys(this.note_working_set).length;
-                return n < this.max_active_test_sets && this.note_order.length > 0;
-            }
-
             constructor(notes) {
                 this.notes = notes;
                 this.note_order = shuffle_array(notes);
                 this.note_working_set = {}
                 this.max_active_test_sets = 3;
-                let curr_random_note = null;
+                this.curr_random_note = null;
                 this.right_answer = document.getElementById("right_answer");
                 while (this.has_more_notes()) {
                     this.note_working_set[this.note_order.pop()] = 0;
                 }
+            }
+
+            play_current_note() {
+                play_note(this.curr_random_note);
+            }
+
+            has_more_notes() {
+                const n = Object.keys(this.note_working_set).length;
+                return n < this.max_active_test_sets && this.note_order.length > 0;
             }
 
             static random_int(min, max) {
@@ -109,64 +112,59 @@
             }
 
             random_next() {
-                const i = this.random_int(0, this.notes.length);
+                console.log(this.notes);
+                const i = Controller.random_int(0, this.notes.length);
                 const note_working_set_array = Object.keys(this.note_working_set);
                 if (note_working_set_array.length == 0) {
                     return false;  // No more items.
                 }
                 let note = null;
                 while (true) {
-                    const i = random_int(0, note_working_set_array.length);
+                    const i = Controller.random_int(0, note_working_set_array.length);
                     note = note_working_set_array[i];
-                    if (note_working_set_array.length == 1 || note != curr_random_note) {
+                    if (note_working_set_array.length == 1 || note != this.curr_random_note) {
                         break;
                     }
                 }
-                curr_random_note = note;
+                this.curr_random_note = note;
                 right_answer.innerText = "";
                 //const ctx = context();
                 return true;  // More in the set.
             }
 
             submit(value) {
-                if (value != curr_random_note) {
-                    console.log(`${value} != ${curr_random_note}`);
+                if (value != this.curr_random_note) {
+                    console.log(`${value} != ${this.curr_random_note}`);
                     // Two, because the next answer will be right.
-                    note_working_set[curr_random_note] -= 2;
+                    this.note_working_set[this.curr_random_note] -= 2;
                     document.getElementById("correct").innerText = "";
-                    reveal_answer();
+                    this.reveal_answer();
                 } else {
-                    console.log(`${value} == ${curr_random_note}`);
+                    console.log(`${value} == ${this.curr_random_note}`);
                     play_note(value);
-                    note_working_set[curr_random_note] += 1;
-                    if (note_working_set[curr_random_note] > 0) {
-                        delete note_working_set[curr_random_note];
+                    this.note_working_set[this.curr_random_note] += 1;
+                    if (this.note_working_set[this.curr_random_note] > 0) {
+                        delete this.note_working_set[this.curr_random_note];
                         if (has_more_notes()) {
-                            note_working_set[note_order.pop()] = 0;
+                            this.note_working_set[this.note_order.pop()] = 0;
                         }
                         document.getElementById("correct").innerText = `"${value}" is correct!`;
                     } else {
-                        const num_left = note_working_set[curr_random_note]
+                        const num_left = this.note_working_set[this.curr_random_note]
                         document.getElementById("correct").innerText = `"${value}" is correct! There are ${-num_left + 1} more until "${value}" is finished.`;
                     }
-                    if (!random_next()) {
+                    if (!this.random_next()) {
                         alert("Finished.");
                         window.location.reload();
                     };
                 }
             }
-
         };
 
         // Wow, black keys are hard so just slice them out (for now).
 
 
         let controller = new Controller(notes);
-
-
-
-
-
         notes.forEach((note) => {
             const el = document.getElementById(note);
             el.onclick = () => {
@@ -185,10 +183,10 @@
 
 
         // Init.
-        window.onload = controller.random_next;
-        //document.getElementById("btn_play_tone").onclick = () => {
-        //    play_note(curr_random_note);
-        //};
+        window.onload = () => { controller.random_next(); }
+        document.getElementById("btn_play_tone").onclick = () => {
+            controller.play_current_note();
+        };
     </script>
 </body>
 
