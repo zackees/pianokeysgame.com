@@ -46,7 +46,7 @@
             <h2>Sound Game</h2>
             <p>Listen to the tone then select the key.</p>
             <input type="button" value="play tone" id="btn_play_tone"></input>
-            <p id="right_answer" style="color: Red;"></p>
+            <p id="wrong_answer" style="color: Red;"></p>
             <p id="correct" style="color: Green;"></p>
             <br>
             <div id="div_white_keys">
@@ -80,13 +80,15 @@
             return out;
         }
         class Controller {
-            constructor(notes) {
+            constructor(notes, on_success_cb, on_miss_cb, on_game_complete) {
                 this.notes = notes;
                 this.note_order = shuffle_array(notes);
                 this.note_working_set = {}
                 this.max_active_test_sets = 3;
                 this.curr_random_note = null;
-                this.right_answer = document.getElementById("right_answer");
+                this.on_success_cb = on_success_cb;
+                this.on_miss_cb = on_miss_cb;
+                this.on_game_complete = on_game_complete;
                 while (this.has_more_notes()) {
                     this.note_working_set[this.note_order.pop()] = 0;
                 }
@@ -108,11 +110,11 @@
 
             reveal_answer() {
                 const num_wrong = -(this.note_working_set[this.curr_random_note] - 1);
-                right_answer.innerText = `Wrong, it was "${this.curr_random_note}", which needs ${num_wrong} right answers before it's finished.`;
+                const msg = `Wrong, it was "${this.curr_random_note}", which needs ${num_wrong} right answers before it's finished.`;
+                this.on_miss_cb(msg);
             }
 
             random_next() {
-                console.log(this.notes);
                 const i = Controller.random_int(0, this.notes.length);
                 const note_working_set_array = Object.keys(this.note_working_set);
                 if (note_working_set_array.length == 0) {
@@ -127,7 +129,8 @@
                     }
                 }
                 this.curr_random_note = note;
-                right_answer.innerText = "";
+                console.log("curr_random_note", this.curr_random_note);
+                //right_answer.innerText = "";
                 //const ctx = context();
                 return true;  // More in the set.
             }
@@ -137,7 +140,7 @@
                     console.log(`${value} != ${this.curr_random_note}`);
                     // Two, because the next answer will be right.
                     this.note_working_set[this.curr_random_note] -= 2;
-                    document.getElementById("correct").innerText = "";
+                    //document.getElementById("correct").innerText = "";
                     this.reveal_answer();
                 } else {
                     console.log(`${value} == ${this.curr_random_note}`);
@@ -145,26 +148,43 @@
                     this.note_working_set[this.curr_random_note] += 1;
                     if (this.note_working_set[this.curr_random_note] > 0) {
                         delete this.note_working_set[this.curr_random_note];
-                        if (has_more_notes()) {
+                        if (this.has_more_notes()) {
                             this.note_working_set[this.note_order.pop()] = 0;
                         }
-                        document.getElementById("correct").innerText = `"${value}" is correct!`;
+                        const msg = `"${value}" is correct!`;
+                        this.on_success_cb(msg);
                     } else {
                         const num_left = this.note_working_set[this.curr_random_note]
-                        document.getElementById("correct").innerText = `"${value}" is correct! There are ${-num_left + 1} more until "${value}" is finished.`;
+                        const msg = `"${value}" is correct! There are ${-num_left + 1} more until "${value}" is finished.`;
+                        this.on_success_cb(msg);
                     }
                     if (!this.random_next()) {
-                        alert("Finished.");
-                        window.location.reload();
+                        this.on_game_complete();
                     };
                 }
             }
         };
 
-        // Wow, black keys are hard so just slice them out (for now).
+        const on_success_callback = (msg) => {
+            document.getElementById("correct").innerText = msg;
+            document.getElementById("wrong_answer").innerText = "";
+        };
 
+        const on_miss_callback = (msg) => {
+            document.getElementById("correct").innerText = "";
+            document.getElementById("wrong_answer").innerText = msg;
+        };
 
-        let controller = new Controller(notes);
+        const on_game_complete_callback = () => {
+            alert("Finished.");
+            window.location.reload();
+        };
+
+        let controller = new Controller(
+            notes,
+            on_success_callback,
+            on_miss_callback,
+            on_game_complete_callback);
         notes.forEach((note) => {
             const el = document.getElementById(note);
             el.onclick = () => {
