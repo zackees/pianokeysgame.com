@@ -77,10 +77,9 @@
     <div id="div_container">
         <div id="div_main">
             <H1>Piano Keys Game!</H1>
-            <p>Look at the red dot, and then select the key that it belongs to.</p>
-            <p>If you don't know which key it is then guess.</p>
-            <canvas id="my_canvas" width="500px">
-            </canvas>
+            <h2>Sound Game</h2>
+            <p>Listen to the tone then select the key.</p>
+            <input type="button" value="play tone" id="btn_play_tone"></input>
             <p id="right_answer" style="color: Red;"></p>
             <p id="correct" style="color: Green;"></p>
             <br>
@@ -95,36 +94,31 @@
                 <input type="button" id="F" value="F" class="wide"></input>
                 <input type="button" id="G" value="G" class="wide"></input>
             </div>
-
-            <!--
-                Work pin progress.
-                input id="chk_include_black_keys" type="checkbox">Include Black Keys</input-->
-            <div id="div_black_keys" style="display: none;">
-                <h3>Black Keys</h3>
-                <input type="button" id="A#/Bb" value="A#/Bb"></input>
-                <input type="button" id="C#/Db" value="C#/Db"></input>
-                <input type="button" id="D#/Eb" value="D#/Eb"></input>
-                <input type="button" id="F#/Gb" value="F#/Gb"></input>
-                <input type="button" id="G#/Ab" value="G#/Ab"></input>
-            </div>
-
         </div>
     </div>
 
-    <script src="common.js"></script>
+    <script src="sound.js"></script>
     <script>
-        const w = css_get_global_var("--canvas-width");
-        init_piano_canvas("my_canvas", w);
         const notes = [
             "C", "D", "E", "F", "G", "A", "B",
-            "C#/Db", "D#/Eb", "F#/Gb", "G#/Ab", "A#/Bb"
         ];
 
+        function shuffle_array(array) {
+            let out = array.slice(0, array.length);
+            for (let i = 0; i < out.length; ++i) {
+                let j = Math.floor(Math.random() * out.length);
+                let tmp = out[i];
+                out[i] = out[j];
+                out[j] = tmp;
+            }
+            return out;
+        }
+
         // Wow, black keys are hard so just slice them out (for now).
-        let note_order = shuffleArray(notes.slice(0, 7));
+        let note_order = shuffle_array(notes);
         let note_working_set = {}
         function has_more_notes() {
-            return Object.keys(note_working_set).length < 4 && note_order.length > 0;
+            return Object.keys(note_working_set).length < 3 && note_order.length > 0;
         }
         while (has_more_notes()) {
             note_working_set[note_order.pop()] = 0;
@@ -155,19 +149,21 @@
             }
             curr_random_note = note;
             right_answer.innerText = "";
-            const ctx = context();
-            draw_piano(ctx);
-            draw_note(ctx, note);
+            //const ctx = context();
             return true;  // More in the set.
         }
 
+        
         function submit(value) {
+            console.log("SUBMIT!");
             if (value != curr_random_note) {
+                console.log(`${value} != ${curr_random_note}`);
                 // Two, because the next answer will be right.
                 note_working_set[curr_random_note] -= 2;
                 document.getElementById("correct").innerText = "";
                 reveal_answer();
             } else {
+                console.log(`${value} == ${curr_random_note}`);
                 play_note(value);
                 note_working_set[curr_random_note] += 1;
                 if (note_working_set[curr_random_note] > 0) {
@@ -187,10 +183,10 @@
             }
         }
 
-
         notes.forEach((note) => {
             const el = document.getElementById(note);
             el.onclick = () => {
+                console.log(el);
                 submit(note);
             }
         });
@@ -204,8 +200,12 @@
             }
         };
 
+
         // Init.
         window.onload = random_next;
+        //document.getElementById("btn_play_tone").onclick = () => {
+        //    play_note(curr_random_note);
+        //};
     </script>
 </body>
 

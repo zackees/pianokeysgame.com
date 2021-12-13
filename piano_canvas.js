@@ -3,16 +3,6 @@ const img_url = "piano_keys.png";
 const img_ratio = 0.6270833333333333;
 const img = new Image();
 img.src = img_url;
-const notes_snds = {
-    "A": new Audio("snd/a5.mp3"),
-    "B": new Audio("snd/b5.mp3"),
-    "C": new Audio("snd/c5.mp3"),
-    "D": new Audio("snd/d5.mp3"),
-    "E": new Audio("snd/e5.mp3"),
-    "F": new Audio("snd/f5.mp3"),
-    "G": new Audio("snd/g5.mp3"),
-};
-
 
 let g_canvas_id = null;
 
@@ -31,32 +21,10 @@ function init_piano_canvas(convas_id, width, height_opt=undefined) {
     c.height = height_opt === undefined ? c.width * img_ratio : height_opt;
 }
 
-
-
 function css_get_global_var(key) {
     const styles = getComputedStyle(document.documentElement);
     const out = styles.getPropertyValue(key);
     return out;
-}
-
-
-function shuffleArray(array) {
-    for (let i = 0; i < array.length; ++i) {
-        let j = Math.floor(Math.random() * array.length);
-        let tmp = array[i];
-        array[i] = array[j];
-        array[j] = tmp;
-    }
-    return array;
-}
-
-function play_note(note) {
-    const snd = notes_snds[note];
-    if (snd) {
-        snd.play();
-        return true;
-    }
-    return false;
 }
 
 function draw_piano(context) {

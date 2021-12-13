@@ -111,8 +111,22 @@
         </div>
     </div>
 
-    <script src="common.js"></script>
+    <script src="piano_canvas.js"></script>
+    <script src="sound.js"></script>
     <script>
+
+        function shuffle_array(array) {
+            let out = array.slice(0, array.length);
+            for (let i = 0; i < out.length; ++i) {
+                let j = Math.floor(Math.random() * out.length);
+                let tmp = out[i];
+                out[i] = out[j];
+                out[j] = tmp;
+            }
+            return out;
+        }
+
+
         const w = css_get_global_var("--canvas-width");
         init_piano_canvas("my_canvas", w);
         const notes = [
@@ -121,7 +135,7 @@
         ];
 
         // Wow, black keys are hard so just slice them out (for now).
-        let note_order = shuffleArray(notes.slice(0, 7));
+        let note_order = shuffle_array(notes.slice(0, 7));
         let note_working_set = {}
         function has_more_notes() {
             return Object.keys(note_working_set).length < 4 && note_order.length > 0;
