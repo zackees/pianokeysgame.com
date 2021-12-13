@@ -44,6 +44,7 @@
         ];
 
         function set_game(idx) {
+            idx = Number.parseInt(idx);
             const url = game_urls[idx];
             const div_main = document.getElementById("main");
             const h = window.screen.availHeight;
@@ -51,14 +52,19 @@
         }
 
         function next_game() {
-            const game_idx = curr_game_idx;
-            curr_game_idx = (curr_game_idx+1) % game_urls.length;
+            const game_idx = Number.parseInt(curr_game_idx) % game_urls.length;
+            curr_game_idx = game_idx+1;
+            console.log(game_idx);
             set_game(game_idx);
         }
 
         function prev_game() {
-            const game_idx = curr_game_idx;
-            curr_game_idx = (curr_game_idx-1) % game_urls.length;
+            let game_idx = Number.parseInt(curr_game_idx) % game_urls.length;
+            if (game_idx < 0) {
+                game_idx = -game_idx;
+            }
+            curr_game_idx = game_idx-1;
+            console.log(game_idx);
             set_game(game_idx);
         }
 

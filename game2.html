@@ -1,51 +1,14 @@
 <!DOCTYPE HTML>
 <html xml:lang="en" lang="en">
-
-<head>
-    <!-- Primary Meta Tags -->
-    <meta charset="utf-8" />
-    <title>Piano Keys Game</title>
-    <meta name="title" content="Piano Keys Game!">
-    <meta name="description" content="A free game where learn how to identify piano keys">
-    <link rel="shortcut icon" href="favicon.ico" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Piano Keys Game!">
-    <meta property="og:url" content="https://www.pianokeysgame.com">
-    <meta property="og:title" content="A free game to learn piano keys fast!">
-    <meta property="og:description" content="Super fast and fun way to learn piano keys">
-    <meta property="og:image" content="https://www.pianokeysgame.com/preview.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:site_name" content="Piano Keys Game!">
-    <meta property="twitter:site" content="@perpetualmaniac">
-    <meta property="twitter:creator" content="@perpetualmaniac">
-    <meta property="twitter:url" content="https://www.pianokeysgame.com">
-    <meta property="twitter:title" content="A free game to learn piano keys fast!">
-    <meta property="twitter:description" content="Super fast and fun way to learn piano keys">
-    <meta property="twitter:image" content="https://www.pianokeysgame.com/preview.png">
-
-    <!-- Other -->
-    <link rel="image_src" href="https://www.pianokeysgame.com/preview.png">
-
-</head>
+<head></head>
 
 <style>
     * {
         font-family: Helvetica, sans-serif;
     }
-
-
-    :root {
-        --canvas-width: 500;
-    }
-
     input[type="button"] {
         font-size: 24px;
     }
-
     input[type=text] {
         width: 400px;
         font-size: 18pt;
@@ -104,7 +67,7 @@
         ];
 
         function shuffle_array(array) {
-            let out = array.slice(0, array.length);
+            let out = array.slice(0, array.length); // copy.
             for (let i = 0; i < out.length; ++i) {
                 let j = Math.floor(Math.random() * out.length);
                 let tmp = out[i];
@@ -155,7 +118,6 @@
 
         
         function submit(value) {
-            console.log("SUBMIT!");
             if (value != curr_random_note) {
                 console.log(`${value} != ${curr_random_note}`);
                 // Two, because the next answer will be right.
