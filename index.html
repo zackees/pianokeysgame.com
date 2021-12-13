@@ -54,7 +54,6 @@
         function next_game() {
             const game_idx = Number.parseInt(curr_game_idx) % game_urls.length;
             curr_game_idx = game_idx+1;
-            console.log(game_idx);
             set_game(game_idx);
         }
 
@@ -64,7 +63,6 @@
                 game_idx = -game_idx;
             }
             curr_game_idx = game_idx-1;
-            console.log(game_idx);
             set_game(game_idx);
         }
 
