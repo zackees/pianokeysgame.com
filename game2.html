@@ -91,12 +91,10 @@
             let controller = new Controller(
                 notes,
                 3,
+                play_note,
                 on_success_callback,
                 on_miss_callback,
                 on_game_complete_callback);
-            controller.set_new_gamestate_callback((note)=>{
-                play_note(note);
-            })
 
             // Attach buttons actions.
             notes.forEach((note) => {
