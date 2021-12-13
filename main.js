@@ -1,36 +1,8 @@
 
-const img_url = "piano_keys.png";
-const img_ratio = 0.6270833333333333;
-
-function canvas() {
-    return document.getElementById("my_canvas");
-}
-
-function context() {
-    return canvas().getContext("2d");
-}
-
-function set_canvas_size(width, height_opt) {
-    const c = canvas();
-    c.width = width;
-    c.height = height_opt === undefined ? c.width * img_ratio : height_opt;
-}
-
-
-function css_get_global_var(key) {
-    const styles = getComputedStyle(document.documentElement);
-    const out = styles.getPropertyValue(key);
-    return out;
-}
-
-const img = new Image();
-img.src = img_url;
 const notes = [
     "C", "D", "E", "F", "G", "A", "B",
     "C#/Db", "D#/Eb", "F#/Gb", "G#/Ab", "A#/Bb"
 ];
-
-
 
 // Wow, black keys are hard so just slice them out (for now).
 let note_order = shuffleArray(notes.slice(0, 7));
@@ -82,7 +54,6 @@ function submit(value) {
     } else {
         play_note(value);
         note_working_set[curr_random_note] += 1;
-
         if (note_working_set[curr_random_note] > 0) {
             delete note_working_set[curr_random_note];
             if (has_more_notes()) {

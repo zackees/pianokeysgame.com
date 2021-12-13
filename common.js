@@ -1,14 +1,8 @@
 
-function shuffleArray(array) {
-    for (let i = 0; i < array.length; ++i) {
-        let j = Math.floor(Math.random() * array.length);
-        let tmp = array[i];
-        array[i] = array[j];
-        array[j] = tmp;
-    }
-    return array;
-}
-
+const img_url = "piano_keys.png";
+const img_ratio = 0.6270833333333333;
+const img = new Image();
+img.src = img_url;
 const notes_snds = {
     "A": new Audio("snd/a5.mp3"),
     "B": new Audio("snd/b5.mp3"),
@@ -18,6 +12,39 @@ const notes_snds = {
     "F": new Audio("snd/f5.mp3"),
     "G": new Audio("snd/g5.mp3"),
 };
+
+
+function canvas() {
+    return document.getElementById("my_canvas");
+}
+
+function context() {
+    return canvas().getContext("2d");
+}
+
+function set_canvas_size(width, height_opt) {
+    const c = canvas();
+    c.width = width;
+    c.height = height_opt === undefined ? c.width * img_ratio : height_opt;
+}
+
+
+function css_get_global_var(key) {
+    const styles = getComputedStyle(document.documentElement);
+    const out = styles.getPropertyValue(key);
+    return out;
+}
+
+
+function shuffleArray(array) {
+    for (let i = 0; i < array.length; ++i) {
+        let j = Math.floor(Math.random() * array.length);
+        let tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
+    return array;
+}
 
 function play_note(note) {
     const snd = notes_snds[note];
