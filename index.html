@@ -33,16 +33,37 @@
 </head>
 
 <body>
-    <input type="button" value="prev"></input>
-    <input type="button" value="next"></input>
+    <input type="button" value="prev" id="btn_prev"></input>
+    <input type="button" value="next" id="btn_next"></input>
     <div id="main"></div>
     <script>
-        window.onload = () => {
-            const url = "game1.html";
+        let curr_game_idx = 0;
+        const game_urls = [
+            'game1.html'
+        ];
+
+        function set_game(idx) {
+            const url = game_urls[idx];
             const div_main = document.getElementById("main");
             const h = window.screen.availHeight;
             div_main.innerHTML = `<iframe style="border: 0" src="${url}" width="100%", height="${h}"></iframe>`;
         }
+
+        function next_game() {
+            const game_idx = curr_game_idx;
+            curr_game_idx = (curr_game_idx+1) % game_urls.length;
+            set_game(game_idx);
+        }
+
+        function prev_game() {
+            const game_idx = curr_game_idx;
+            curr_game_idx = (curr_game_idx-1) % game_urls.length;
+            set_game(game_idx);
+        }
+
+        document.getElementById("btn_next").onclick = next_game;
+        document.getElementById("btn_prev").onclick = prev_game;
+        window.onload = next_game;
     </script>
 
 </body>
