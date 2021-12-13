@@ -14,19 +14,23 @@ const notes_snds = {
 };
 
 
+let g_canvas_id = null;
+
 function canvas() {
-    return document.getElementById("my_canvas");
+    return document.getElementById(g_canvas_id);
 }
 
 function context() {
     return canvas().getContext("2d");
 }
 
-function set_canvas_size(width, height_opt) {
+function init_piano_canvas(convas_id, width, height_opt=undefined) {
+    g_canvas_id = convas_id;
     const c = canvas();
     c.width = width;
     c.height = height_opt === undefined ? c.width * img_ratio : height_opt;
 }
+
 
 
 function css_get_global_var(key) {
