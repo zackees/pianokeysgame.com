@@ -66,55 +66,56 @@
     <script src="sound.js"></script>
     <script src="controller.js"></script>
     <script>
-        const notes = [
-            "C", "D", "E", "F", "G", "A", "B",
-        ];
+        // Init when window fully loads.
+        window.onload = () => {
+            const notes = [
+                "C", "D", "E", "F", "G", "A", "B",
+            ];
+            const on_success_callback = (note, msg) => {
+                document.getElementById("correct").innerText = msg;
+                document.getElementById("wrong_answer").innerText = "";
+                play_note(note);
+            };
 
-        const on_success_callback = (note, msg) => {
-            document.getElementById("correct").innerText = msg;
-            document.getElementById("wrong_answer").innerText = "";
-            play_note(note);
-        };
+            const on_miss_callback = (msg) => {
+                document.getElementById("correct").innerText = "";
+                document.getElementById("wrong_answer").innerText = msg;
+            };
 
-        const on_miss_callback = (msg) => {
-            document.getElementById("correct").innerText = "";
-            document.getElementById("wrong_answer").innerText = msg;
-        };
+            const on_game_complete_callback = (controller) => {
+                alert("Finished.");
+                document.getElementById("correct").innerText = "";
+                document.getElementById("wrong_answer").innerText = "";
+                controller.reset();
+            };
 
-        const on_game_complete_callback = (controller) => {
-            alert("Finished.");
-            document.getElementById("correct").innerText = "";
-            document.getElementById("wrong_answer").innerText = "";
-            controller.reset();
-        };
+            let controller = new Controller(
+                notes,
+                3,
+                on_success_callback,
+                on_miss_callback,
+                on_game_complete_callback);
 
-        let controller = new Controller(
-            notes,
-            3,
-            on_success_callback,
-            on_miss_callback,
-            on_game_complete_callback);
+            // Attach buttons actions.
+            notes.forEach((note) => {
+                const el = document.getElementById(note);
+                el.onclick = () => { controller.submit(note); };
+            });
 
-        // Attach buttons actions.
-        notes.forEach((note) => {
-            const el = document.getElementById(note);
-            el.onclick = () => { controller.submit(note); };
-        });
+            // Keyboard access to keys.
+            document.onkeydown = (evt) => {
+                const key = evt.key.toUpperCase();
+                const found_key = document.getElementById(key);
+                if (found_key) {
+                    controller.submit(found_key);
+                }
+            };
+            controller.random_next();
+            document.getElementById("btn_play_tone").onclick = () => {
+                controller.play_current_note();
+            };
+        }
 
-        // Keyboard access to keys.
-        document.onkeydown = (evt) => {
-            const key = evt.key.toUpperCase();
-            const found_key = document.getElementById(key);
-            if (found_key) {
-                controller.submit(found_key);
-            }
-        };
-
-        // Init.
-        //window.onload = () => { controller.random_next(); }
-        document.getElementById("btn_play_tone").onclick = () => {
-            controller.play_current_note();
-        };
     </script>
 </body>
 
