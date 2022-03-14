@@ -163,9 +163,9 @@
             // Keyboard access to keys.
             document.onkeydown = (evt) => {
                 const key = evt.key.toUpperCase();
-                const found_key = document.getElementById(key);
-                if (found_key) {
-                    controller.submit(found_key);
+                const found_key_dom = document.getElementById(key);
+                if (found_key_dom) {
+                    controller.submit(key);
                 }
             };
         };
